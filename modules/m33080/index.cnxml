@@ -1,0 +1,34 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+  <title>Conclusion</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m33080</md:content-id>
+  <md:title>Conclusion</md:title>
+  <md:abstract>The Conclusion module of the Sparse Signal Recovery in the Presence of Noise collection.</md:abstract>
+  <md:uuid>6b4ab206-25e1-4a52-84c2-80d2485e6479</md:uuid>
+</metadata>
+<featured-links>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit below.
+       Changes to the links section in the source will not be saved. -->
+    <link-group type="supplemental">
+      <link url="http://cnx.org/content/m33082/latest/" strength="3">Introduction</link>
+      <link url="http://cnx.org/content/m33087/latest/" strength="3">Theory</link>
+      <link url="http://cnx.org/content/m33081/latest/" strength="3">Implementation</link>
+      <link url="http://cnx.org/content/m33080/latest/" strength="3">Conclusion</link>
+      <link url="http://cnx.org/content/m33079/latest/" strength="3">Code</link>
+      <link url="http://cnx.org/content/m33083/latest/" strength="3">References and Acknowledgements</link>
+      <link url="http://cnx.org/content/m33086/latest/" strength="3">Team</link>
+    </link-group>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit above.
+       Changes to the links section in the source will not be saved. -->
+</featured-links>
+<content>
+    <section id="id1172200004024">
+      <title>Conclusion</title>
+      <para id="id8836948"><term>With priming</term>, the regression line correlating number of samples and standard deviation is roughly (sd^2)/6.5 + 1, which amounts to <term>O(N^2)</term> complexity. However, although this may seem slow, our method permits perfect recovery of complicated (albeit sparse) signals <emphasis effect="italics">with </emphasis><term>arbitrary levels of AWGN</term>. Thus, for reasonable data set sizes and values of standard deviation, the algorithm functions quite nicely for accurate signal reconstruction. Although if given infinite samples and time, it can recover any signal that is relatively sparse given infinite time.</para>
+      <para id="id1172193138222"><term>Without priming</term> the noise, and taking 50 samples, we can achieve <term>O(1)</term> complexity – extremely desirable, but the recovery percentage falls off rapidly with increase in noise standard deviation starting at standard deviation values around 3.5. Thus, this version of the algorithm could be desirable in non-critical applications where the strength of the noise is known to be low relative to that of the signal. We certainly would not recommend using the non-primed algorithm in data sensitive digital applications.</para>
+      
+    </section><section id="eip-22"><title>Further Avenues of Inquiry</title><para id="eip-id8818001"><title>Colored Noise</title>It would be interesting to extend the algorithm to accept <term>different types of noise</term> – pink, brown, purple, etc. Logically the exact same algorithm would work on these, but it would be nice to verify this experimentally.</para><para id="eip-471"><title>Physical Prototype</title>A physical prototype of this system would allow a far better testing of the theory than simple simulation.  Unfortunately, due to the cost of even moderate quality receivers and FPGAs, this was not feasible.</para><para id="eip-747"><title>Dynamic Noise</title>One major benefit of a noise resistant system is ECCM, Electronic Counter Countermeasures (counter-jamming). It would be interesting to test whether a system using the described algorithm could resist noise from a transmitter moving towards the system (without simply taking a conservative estimate of worst-case noise during the signal reconstruction period).</para>
+<para id="eip-id10306088"><title>Dynamic Priming</title>A useful addition to this algorithm, would be to be able to pick the optimal bound for priming to minimize the number of samples rather than simply choosing the best of two options.</para>
+</section>
+  </content>
+</document>

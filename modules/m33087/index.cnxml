@@ -1,0 +1,50 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+  <title>Theory</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m33087</md:content-id>
+  <md:title>Theory</md:title>
+  <md:abstract>The Theory module within the Sparse Signal Reconstruction in the Presence of Noise collection.</md:abstract>
+  <md:uuid>6a8238ef-e9a5-4926-bb33-1bd0cd8ea5ac</md:uuid>
+</metadata>
+<featured-links>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit below.
+       Changes to the links section in the source will not be saved. -->
+    <link-group type="supplemental">
+      <link url="http://cnx.org/content/m33082/latest/" strength="3">Introduction</link>
+      <link url="http://cnx.org/content/m33087/latest/" strength="3">Theory</link>
+      <link url="http://cnx.org/content/m33081/latest/" strength="3">Implementation</link>
+      <link url="http://cnx.org/content/m33080/latest/" strength="3">Conclusion</link>
+      <link url="http://cnx.org/content/m33079/latest/" strength="3">Code</link>
+      <link url="http://cnx.org/content/m33083/latest/" strength="3">References and Acknowledgements</link>
+      <link url="http://cnx.org/content/m33086/latest/" strength="3">Team</link>
+    </link-group>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit above.
+       Changes to the links section in the source will not be saved. -->
+</featured-links>
+<content>
+    <section id="id8369694">
+      <title>Theory</title>
+      <section id="id18401581">
+        <title>Motivation</title>
+        <para id="id18259672">In theory, we should never have to 'recover' a signal – it should merely pass from one location to another, undisturbed. However, all real-world signals pass through the infamous “channel” – a path between the transmitter and the receiver that includes a variety of hazards, including <term>attenuation</term>, <term>phase shift</term>, and, perhaps most insidiously, <term>noise</term>. Nonetheless, we depend upon precise signal transmission daily – in our watches, computer networks, and advanced defense systems. Therefore, the field of signal processing concerns itself not only with the deployment of a signal, but also with its recovery in the most efficient and most accurate manner.</para>
+      </section>
+      <section id="id4431578"><title>Types of Noise</title><para id="id18051737">Noise takes many forms. The various 'colors' of noise are used to refer to the different power spectral density curves that types of noise exhibit. For example, the power density of pink noise falls off at 10dB per decade. The power density spectrum of pink noise is flat in logarithmic space. The most common type of noise, however, is <term>white noise</term>. White noise exhibits a flat power density spectrum in linear space. In many physical process (and in this report), we deal primarily with Additive White Gaussian Noise – abbreviated <term>AWGN</term>. As a reminder, the Gaussian distribution has the following PDF (Probability Density Function):</para>
+       <figure id="id2530549"><media id="id2530549_media" alt=""><image mime-type="image/png" src="../../media/equation.png" id="id2530549__onlineimage"/></media></figure> 
+        <para id="id10064728"><emphasis effect="italics">μ</emphasis> is the mean; <emphasis effect="italics">σ</emphasis><sup>2</sup> ≥ 0 is the variance.</para>
+      </section>
+      <section id="id8655139">
+        <title>Sparse Signals</title>
+        <para id="id11750982">An additional constraint we imposed upon our input signals was that they were required to be <term>sparse</term>. A signal that is sparse in a given basis can be reconstructed using a small number of the basis vectors in that basis. In the standard basis for R<sup>n</sup>, for example, the signal (1,0,0,0,...,0) would be as sparse as possible – it requires only the basis vector e<sub>1</sub> for reconstruction (in fact, e<sub>1 </sub>is the signal!). By assuming that the original signals are sparse, we are able to employ novel recovery methods and minimize computation time. </para>
+      </section>
+      <section id="id17134793">
+        <title>Typical Reconstruction Approaches</title>
+        <para id="id15942655">We have a number of choices for the recovery of sparse signals. As a first idea, we could “<term>optimally select</term>” the samples we use for our calculations from the signal. However, this is a complicated and not always fruitful process. </para>
+        <para id="id11353946">Another approach is <term>Orthogonal Matching Pursuit (OMP)</term>. OMP essentially involves projecting a length-n signal into the space determined by the span of a k-component “nearly orthonormal” basis (a random array of 1/sqrt(n) and (-1)/sqrt(n) values). Such a projection is termed a <term>Random Fourier Projection</term>. Entries in the projection that do not reach a certain threshold are assigned a value of zero. This computation is iterated and the result obtained is an approximation of the original sparse signal. Unfortunately, OMP itself can be fairly complicated, as the optimal basis is often a wavelet basis. Wavelets are frequency “packets” - that is, localized in both time and frequency; in contrast, the Fourier transform is only localized in frequency.</para>
+      </section>
+      <section id="id18083669">
+        <title>Signal Reconstruction: Our Method</title>
+        <para id="id18243534">The fundamental principle for our method of signal analysis is determining where the signal is not, rather than finding where it is. This information is stored in a <term>mask</term> that, when multiplied with the <term>running average</term> of the signal, will provide the current approximation of the signal. This mask is built up by determining whether a given value in the signal is above a threshold, which is determined by the standard deviation of the noise; if so, the value is most likely a signal element. This process is repeated until the signal expected is approximately equal to a signal stored in a library on the device. While this operation is naturally more noticeable at each iteration with sparse signals, even for non-sparse signals the only limiting factor is the <term>minimum value</term> of the signal. For reasons of application, the primary limiting factor is the number of samples required to recover the signal. This is because the raw mathematical operations take fractions of a second to a few seconds to execute (which is more than enough for conventional applications). The signal itself may be transmitted for a very short period; the requisite <term>number of samples</term> must be garnered before transmission halts. Further, given an arbitrary amount of computation time, our algorithm can reconstruct a sparse signal contaminated with <emphasis effect="italics">any</emphasis> level of AWGN – there is no mathematical limit on the recovery process. This is an impressive and surprising feat.</para>
+      </section>
+    </section>
+  </content>
+</document>

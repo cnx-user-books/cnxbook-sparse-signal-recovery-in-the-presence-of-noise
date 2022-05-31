@@ -1,0 +1,34 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+  <title>References and Acknowledgements</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m33083</md:content-id>
+  <md:title>References and Acknowledgements</md:title>
+  <md:abstract>References and Acknowledgements for the Sparse Signal Recovery in the Presence of Noise collection.</md:abstract>
+  <md:uuid>5c138ea8-4519-473a-92aa-e1bd805feaf9</md:uuid>
+</metadata>
+<featured-links>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit below.
+       Changes to the links section in the source will not be saved. -->
+    <link-group type="supplemental">
+      <link url="http://cnx.org/content/m33082/latest/" strength="3">Introduction</link>
+      <link url="http://cnx.org/content/m33087/latest/" strength="3">Theory</link>
+      <link url="http://cnx.org/content/m33081/latest/" strength="3">Implementation</link>
+      <link url="http://cnx.org/content/m33080/latest/" strength="3">Conclusion</link>
+      <link url="http://cnx.org/content/m33079/latest/" strength="3">Code</link>
+      <link url="http://cnx.org/content/m33083/latest/" strength="3">References and Acknowledgements</link>
+      <link url="http://cnx.org/content/m33086/latest/" strength="3">Team</link>
+    </link-group>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit above.
+       Changes to the links section in the source will not be saved. -->
+</featured-links>
+<content>
+    <section id="id1167131335869"><title>References and Acknowledgements</title><para id="id1167133173047">We wish to thank our mentor, JP Slavinsky. Without your guidance and support, this project would not have been possible. </para>
+      <para id="id1167133183759">Many thanks also to Dr. Rich Baraniuk – for creating Connexions, and (arguably more importantly), for presenting inspiring signal processing lectures throughout the semester.</para>
+<para id="eip-899">J D Haupt's presentation to the Electrical Engineering department on sparse signal reconstruction was integral to the development of our algorithm, although it concentrated on efficiency rather than arbitrary reconstruction.</para>
+      <para id="id8414340">The algorithms and techniques discussed in the following papers were used for comparison against our algorithm:</para>
+      <para id="id1167132671678">Haupt, J. and R. Nowak. "Signal Reconstruction From Noisy Random Projections." <emphasis effect="italics">IEEE Trans. Info. Theory</emphasis>, vol.52, no.9, pp.4036-4048, 2006.
+<link url="http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1683924&amp;isnumber=35459">http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1683924&amp;isnumber=35459</link></para>
+      <para id="id1167132662179">J. Tropp and A. Gilbert, "Signal Recovery from Partial Information via Orthogonal Matching Pursuit." <emphasis effect="italics">IEEE Trans. Info. Theory</emphasis>, vol. 53, no. 12, pp. 4655--4666, 2007. <link url="http://www.math.lsa.umich.edu/~annacg/papers/TG05-signal-recovery-rev-v2.pdf">http://www.math.lsa.umich.edu/~annacg/papers/TG05-signal-recovery-rev-v2.pdf</link></para>
+    </section>
+  </content>
+</document>

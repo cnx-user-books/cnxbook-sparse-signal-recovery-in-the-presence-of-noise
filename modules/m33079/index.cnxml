@@ -1,0 +1,162 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+  <title>Code</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m33079</md:content-id>
+  <md:title>Code</md:title>
+  <md:abstract>The MATLAB source code for the Sparse Signal Recovery in the Presence of Noise collection.</md:abstract>
+  <md:uuid>72d0fc18-99ea-4cfb-9cf8-1c47ff22819f</md:uuid>
+</metadata>
+<featured-links>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit below.
+       Changes to the links section in the source will not be saved. -->
+    <link-group type="supplemental">
+      <link url="http://cnx.org/content/m33082/latest/" strength="3">Introduction</link>
+      <link url="http://cnx.org/content/m33087/latest/" strength="3">Theory</link>
+      <link url="http://cnx.org/content/m33081/latest/" strength="3">Implementation</link>
+      <link url="http://cnx.org/content/m33080/latest/" strength="3">Conclusion</link>
+      <link url="http://cnx.org/content/m33079/latest/" strength="3">Code</link>
+      <link url="http://cnx.org/content/m33083/latest/" strength="3">References and Acknowledgements</link>
+      <link url="http://cnx.org/content/m33086/latest/" strength="3">Team</link>
+    </link-group>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit above.
+       Changes to the links section in the source will not be saved. -->
+</featured-links>
+<content>
+    <section id="id5964814">
+      <title>Code</title>
+      <para id="id5901883">The following is the MATLAB source code for each of the components of our project.</para>
+      <section id="id7981523"><title>addNoise.m</title><code id="eip-962" display="block">
+
+function out = addNoise(sig,mean,sd,Plot)
+%addNoise
+%adds noise with given mean and sd to the signal
+    rand=randn(1,1000)*sd+mean;
+    out=sig+rand;
+    if(Plot==1)
+        plot(1:1000,out,1:1000,sig);
+    end
+end</code>
+      </section>
+      <section id="id8080119"><title>sample.m</title><code id="eip-200" display="block">
+function out = sample(sd,plot,sig)
+%sample
+%samples a manually constructed signal, and adds gaussian noise to it
+%with a standard deviation that is provided
+out=fft(addNoise(sig,0,sd,plot));
+end</code></section>
+      <section id="id10451949"><title>init.m</title><code id="eip-954" display="block">function [out,samp]=init(sig,sd)
+    %averages the signal and the noise over a number of samples to make the
+    %noise level manageable
+    out=sig+randn(1,1000).*sd;
+    %optimize number of samples
+    if sd&lt;76
+        val=6.25;
+    else
+        val=9;
+    end
+    samp=floor((ceil(sd))^2/(val));
+    for n=2:samp
+        out=(out.*(n-1)+sig+randn(1,1000).*sd)/n;
+    end
+    out=fft(out);
+end</code></section>
+      <section id="id5938912"><title>simpleIterate.m</title><code id="eip-651" display="block">function [mask, NSig,runT] = simpleIterate(sigMask,threshold,run,n,sd,sig)
+%simpleIterate(sigMask,threshold,run,n)
+%computes an iteration of the thresholding, with a running average of run,
+%on iteration n, with the current signal mask of sigMask
+%returns the new signal mask, the current signal(non-masked) NSig and the
+%running average of the signal runT
+    siz=size(sigMask);
+    temp=zeros(1,siz(2));
+    for i=1:4
+        NSig=sample(sd,0,sig).*sigMask;
+        if(n==1)
+            runT=NSig;
+        else
+            runT=(run.*(n-1)+NSig)/n;
+        end
+        %temp=temp+(max(abs(real(NSig)),abs(imag(NSig)))&gt;threshold);
+        temp=temp+(max(abs(real(runT)),abs(imag(runT)))&gt;threshold);
+        %temp=temp+(abs(NSig)&gt;threshold);
+    end
+    mask=zeros(1,siz(2));
+    for l=1:siz(2)
+        if(temp(l)&lt;2)
+            mask(l)=0;
+        else
+            mask(l)=sigMask(l);
+        end
+    end
+end
+
+
+</code></section>
+      <section id="id11148954"><title>testArbitary.m</title><code id="eip-821" display="block">function [flag,samples,time]=testArbitrary(sig,sd)
+%Simulates the transmission of a signal in the library, and tests whether
+%or not it can be recovered.
+    siglib=cat(1,sin(0:pi/500:(1000*pi-1)/500),sin(0:pi/250:(2000*pi-1)/500),sin(0:pi/125:(4000*pi-1)/500),sin(0:pi/50:(10000*pi-1)/500),sin(0:pi/25:(20000*pi-1)/500));
+    siglib=cat(1,siglib,sin(0:pi/500:(1000*pi-1)/500)+sin(0:pi/50:(10000*pi-1)/500),cos(0:pi/500:(1000*pi-1)/500),cos(0:pi/250:(2000*pi-1)/500),cos(0:pi/125:(4000*pi-1)/500),cos(0:pi/50:(10000*pi-1)/500));
+    siglib=cat(1,siglib,cos(0:pi/25:(20000*pi-1)/500),cos(0:pi/25:(20000*pi-1)/500)+sin(0:pi/500:(1000*pi-1)/500),sin(0:pi/500:(1000*pi-1)/500)+sin(0:pi/125:(4000*pi-1)/500)+cos(0:pi/25:(20000*pi-1)/500));
+    sigmax=max(abs(fft(siglib(sig,:))));
+    threshhold=sigmax-3*max(abs(real(fft(randn(1,1000)))));
+    tolerance=.5;
+    A=ones(1,1000);
+    flag=0;
+    tic
+    [C,samples]=init(siglib(sig,:),sd);
+    for i=1:10000
+        [A,B,C]=simpleIterate(A,threshhold,C,i+samples,sd,siglib(sig,:));
+        for j=1:size(siglib)
+            if(abs(ifft(A.*C)-siglib(j,:))&lt;tolerance)
+                flag=j;
+                break;
+            end
+        end
+        if(flag&gt;0)
+            break;
+        end
+    end
+    samples=samples+i;
+    time=toc;
+end
+
+</code></section>
+      <section id="id8000229"><title>Controller.m</title><code id="eip-973" display="block">function accepted = Controller(enteredpassword,sd)
+%Tests whether or not a transmission of a password will activate the system
+%This simulates the noise and processing as well as the values
+    actualpassword=cat(1,13,5,10,4,2,8);
+    accepted=1;
+    redundancy=3;
+    for i=1:size(actualpassword);
+        flag=0;
+        %while flag==0
+        for j=1:redundancy
+            [flag,runs]=testArbitrary(enteredpassword(i),sd);
+        end
+        if(flag~=actualpassword(i))
+            accepted=-i;
+            break;
+        end
+    end
+end
+
+</code></section>
+      <section id="id10240122"><title>Controller2.m</title><code id="eip-209" display="block">function Controller2()
+%Helper function used to graph trends
+    sig=1;
+    for sd=0:30
+        passed=0;
+        for reps=1:50
+            if(testArbitrary(sig,3+sd/10)==sig)
+                passed=passed+1;
+            end
+        end
+        temp(sd*10-29)=passed
+    end
+    subplot(1,1,1);
+    plot(temp);
+end
+</code></section>
+    </section>
+  </content>
+</document>

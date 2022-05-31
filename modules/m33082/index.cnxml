@@ -1,0 +1,31 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+  <title>Introduction</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m33082</md:content-id>
+  <md:title>Introduction</md:title>
+  <md:abstract>Introduction module in the Sparse Signal Recovery collection.</md:abstract>
+  <md:uuid>25e13f7e-efca-485d-acb9-9388ef67ea2d</md:uuid>
+</metadata>
+<featured-links>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit below.
+       Changes to the links section in the source will not be saved. -->
+    <link-group type="supplemental">
+      <link url="http://cnx.org/content/m33082/latest/" strength="3">Introduction</link>
+      <link url="http://cnx.org/content/m33087/latest/" strength="3">Theory</link>
+      <link url="http://cnx.org/content/m33081/latest/" strength="3">Implementation</link>
+      <link url="http://cnx.org/content/m33080/latest/" strength="3">Conclusion</link>
+      <link url="http://cnx.org/content/m33079/latest/" strength="3">Code</link>
+      <link url="http://cnx.org/content/m33083/latest/" strength="3">References and Acknowledgements</link>
+      <link url="http://cnx.org/content/m33086/latest/" strength="3">Theory</link>
+    </link-group>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit above.
+       Changes to the links section in the source will not be saved. -->
+</featured-links>
+<content>
+    <section id="id18984182">
+      <title>Introduction</title>
+      <para id="id12589692">As we progress into the era of information overload, it becomes increasingly important to find ways to extract information efficiently from data sets. One of the key concerns in signal processing is the accurate decoding and interpretation of an input in a minimal period of time. In the distant past, the information theorists' objective primarily involved reducing the signal elements to be processed. Now, with a multitude of extraction options, we are also concerned about the computation time required to interpret each element.</para>
+      <para id="id13539821">In this project, we investigate a few methods by which we can “accurately” reconstruct an arbitrarily complex signal using a minimum number of iterations. The input signals we probe are deemed <term>sparse</term> – that is, they are constructed using a number of basis vectors that is small relative to the length of the signal. This generally means that the signals consist mostly of zero values, with spikes at a few selected positions. We compare the signal-to-noise ratios achieved by our recovery methods after specified numbers of iterations upon a variety of input signals, and deduce a few conclusions about the most efficient and most feasible recovery methods.</para>
+    </section>
+  </content>
+</document>

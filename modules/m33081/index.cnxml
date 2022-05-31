@@ -1,0 +1,80 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+  <title>Implementation</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m33081</md:content-id>
+  <md:title>Implementation</md:title>
+  <md:abstract>Algorithm and implementation of arbitrary sparse reconstruction in the Sparse Signal Recovery in the Presence of Noise collection.</md:abstract>
+  <md:uuid>87d5d232-10c6-4a10-b8a8-12f6a4ed8aa8</md:uuid>
+</metadata>
+<featured-links>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit below.
+       Changes to the links section in the source will not be saved. -->
+    <link-group type="supplemental">
+      <link url="http://cnx.org/content/m33082/latest/" strength="3">Introduction</link>
+      <link url="http://cnx.org/content/m33087/latest/" strength="3">Theory</link>
+      <link url="http://cnx.org/content/m33081/latest/" strength="3">Implementation</link>
+      <link url="http://cnx.org/content/m33080/latest/" strength="3">Conclusion</link>
+      <link url="http://cnx.org/content/m33079/latest/" strength="3">Code</link>
+      <link url="http://cnx.org/content/m33083/latest/" strength="3">References and Acknowledgements</link>
+      <link url="http://cnx.org/content/m33086/latest/" strength="3">Team</link>
+    </link-group>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit above.
+       Changes to the links section in the source will not be saved. -->
+</featured-links>
+<content>
+    <section id="id1163765098262"><title>Implementation</title><para id="id1163764957418">Our implementation of the system was based around a controller program, which accepts the password to be transmitted, and then simulate the transmission and reconstruction. The program then returns whether or not the password received is the same as that which activated the system. In the final application, the controller is called repeatedly until the system is activated; it returns immediately after a non-match, and continues in sequence after the first element is matched.</para>
+      <para id="id1163765148813">For each of the passwords element’s iterations in the controller the following algorithm is used. The threshold is set to [the minimum value of the ideal signal minus three times the standard deviation of the base noise] (in our case one), and the mask is initialized to all ones. Then we prime the noise to reach either that standard deviation or less by priming the running total with a series of samples, the exact number of which is determined by the standard deviation of the noise. Then we execute the following function until either it runs a set number of times, or succeeds. Then the program compares the reconstructed signal after the iteration with the ideal signals, and returns if there is a reasonable match.</para>
+      <para id="id1163767819483">This function does the following four times: it samples the signal, updates the running total, and counts whether the maximum imaginary or real part of the Fourier transform of the signal is greater than the threshold. If at least two of the four cycles result in a value greater than the threshold, the mask’s value at that point is set to the previous value of the mask; otherwise, the mask’s value is set to zero. This allows a degree of leniency (which is useful in an inherently probabilistic method) and drastically reduces the probability of failure, albeit at the expense of increasing processing time.</para>
+      <para id="id1163769793505">The priming of the noise either reduces it to a standard deviation of two and a half, or three, based on the standard deviation of the noise.  The method which is selected will result in fewer net samples required than the alternative method: although processing the information can take large quantities of samples, pre-processing requires sd^2/(2.5^2) or sd^2/(3^2) samples; hence, a larger denominator can cut off incredible quantities of samples.  The reason why these values in particular were selected is that experimentally we determined that at 2.5 standard deviations, most signals required only one additional sample to become fully reconstructed, while at 3 standard deviations, they took a couple dozen to a few hundred, and a maximum of a few thousand additional samples, but it appeared to terminate the vast majority of the time as shown in Figure 1 and Figure 2.</para>
+<figure id="eip-id1167815607188"><media id="figure1" alt="Figure 1.">	   
+  <image mime-type="image/png" src="../../media/accuracy1.png"/>		 
+</media>
+</figure>
+
+      <para id="id1163764854240">The success of a simple signal as a function of the standard deviation of the noise for a single cycle of a sinusoid with no priming(50 repetitions at each point).</para>
+<figure id="eip-id11498556"><media id="figure2" alt="Figure 2.">	   
+  <image mime-type="image/png" src="../../media/accuracy2.png"/>		 
+</media>
+</figure>
+      <para id="eip-339">The success of a sum of a frequency one sine wave, a frequency four sine wave, and a frequency 20 cosine wave as a function of the standard deviation of the noise with no priming(50 repetitions at each point).</para><para id="id4292942">The priming is a necessity, since without it, the probability of success decreases rapidly as the standard deviation increases, but with it the probability of success, while not one, remains constantly above 99%. This is because after priming the effective standard deviation is always three or less, making the original signal consistently recoverable.</para>
+
+    </section>
+    <section id="id1163767807040"><title>Timing Analysis</title><para id="id1163774276258">All of the initializitions before the priming, assignations etc. require O(1) operations.  The priming itself requires O(sd^2) operations.  The post priming processing, requires O(library size) operations since although the fft is O(N*logN), N is bounded and therefore even if the sd wasn’t bounded to minimize the computation it still would always be less than a constant value.  The only variable processing part is the comparisons with the library, which is O(libsize*N*logN) with N being bounded, simplifying to O(libsize).  This means that the algorithm itself is O(sd^2)+O(libsize)=O(sd^2) since libsize will tend to be small.  This is supported by experimental results as shown in Figure 1 and Figure 2.</para>
+    <figure id="eip-id1163765150165"><media id="figure3" alt="Figure 3.">	   
+  <image mime-type="image/png" src="../../media/time1.png"/>		 
+</media>
+</figure>
+<para id="eip-6">The average time of execution as a function of the standard deviation of the noise for a single cycle sinusoid (50 repetitions per point).</para><figure id="eip-id1163774272761"><media id="figure4" alt="Figure 4.">	   
+  <image mime-type="image/png" src="../../media/time2.png"/>		 
+</media>
+</figure><para id="eip-112">The average time of execution as a function of the standard deviation of the noise for the sum of a frequency 1, sine wave, a frequency 4 sine wave, and a frequency 20 cosine wave (50 repetitions per point).</para><para id="eip-274">For a real world application, it is also important to know not only the time it takes to execute the entire program, but also the number of samples that are required in order to reconstruct the signal.  This is because the signal will only be transmitted for a limited time, so the hardware must be able to take the right number of samples in that time.  From the processing perspective, even with very slow hardware the signal could eventually be reconstructed, but the same is not the case if the correct number of samples cannot be garnered.  The number of samples required is always on O(sd^2) specifically sd^2/6.25+1 if sd&lt;76, and sd^2/9+~200 if sd&gt;=76.  The experimental values are shown in Figure 3 and Figure 4.</para>
+<figure id="eip-id1167496292723"><media id="figure5" alt="Figure 5.">	   
+  <image mime-type="image/png" src="../../media/samples1.png"/>		 
+</media>
+</figure>
+<para id="eip-898">The average number of samples required to reconstruct the signal as standard deviation increases for a single cycle sine wave (50 repetitions at each point).</para><figure id="eip-id1167496726376"><media id="figure6" alt="Figure 6.">	   
+  <image mime-type="image/png" src="../../media/samples2.png"/>		 
+</media>
+</figure><para id="eip-63">The average number of samples to reconstruct the signal as a function of the standard deviation of the noise for the sum of a frequency 1 sine wave, a frequency 4 sine wave, and a frequency 20 cosine wave (50 repetitions per point).</para></section><section id="eip-263"><title>Examples of Execution</title><para id="eip-244">All of the following figures are comprised of a series of graphs. The first graph is the initial signal with noise, as well as the initial signal; the next four graphs are the reconstructed signal at consecutive iterations along with the initial signal; the final graph is the final reconstructed signal along with the initial signal.</para><figure id="eip-id1169905224814">
+<media id="figure7" alt="Figure 7.">	   
+  <image mime-type="image/png" src="../../media/example1.png"/>		 
+</media>
+</figure>
+<para id="eip-id1169899563509">Execution from algorithm for signal 1, a frequency 1 sine wave with noise standard deviation of 5.
+</para>
+<figure id="eip-id1169909577299">
+<media id="figure8" alt="Figure 8.">	   
+  <image mime-type="image/png" src="../../media/example2.png"/>		 
+</media>
+</figure>
+<para id="eip-id1169873525449">Execution from algorithm for signal 10, a frequency 10 cosine wave with noise standard deviation of 5.
+</para>
+<figure id="eip-id6747428">
+<media id="figure9" alt="Figure 9.">	   
+  <image mime-type="image/png" src="../../media/example3.png"/>		 
+</media>
+</figure>
+<para id="eip-id1169890689768">Execution from algorithm for signal 13, the sum of a frequency 1 sine wave, a frequency 4 sine wave, and a frequency 20 cosine wave with noise standard deviation of 5.
+</para></section>
+  </content>
+</document>

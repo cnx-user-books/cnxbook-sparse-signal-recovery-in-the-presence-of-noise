@@ -1,0 +1,50 @@
+<document xmlns="http://cnx.rice.edu/cnxml">
+  <title>Team</title>
+<metadata xmlns:md="http://cnx.rice.edu/mdml">
+  <md:content-id>m33086</md:content-id>
+  <md:title>Team</md:title>
+  <md:abstract>Information about the team that created the Sparse Signal Recovery in the Presence of Noise collection.</md:abstract>
+  <md:uuid>89f2c27e-e575-43e8-a931-e269f21dd269</md:uuid>
+</metadata>
+<featured-links>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit below.
+       Changes to the links section in the source will not be saved. -->
+    <link-group type="supplemental">
+      <link url="http://cnx.org/content/m33082/latest/" strength="3">Introduction</link>
+      <link url="http://cnx.org/content/m33087/latest/" strength="3">Theory</link>
+      <link url="http://cnx.org/content/m33081/latest/" strength="3">Implementation</link>
+      <link url="http://cnx.org/content/m33080/latest/" strength="3">Conclusion</link>
+      <link url="http://cnx.org/content/m33079/latest/" strength="3">Code</link>
+      <link url="http://cnx.org/content/m33083/latest/" strength="3">References and Acknowledgements</link>
+      <link url="http://cnx.org/content/m33086/latest/" strength="3">Team</link>
+    </link-group>
+  <!-- WARNING! The 'featured-links' section is read only. Do not edit above.
+       Changes to the links section in the source will not be saved. -->
+</featured-links>
+<content>
+    <section id="id1714514">
+      <title>Team</title>
+      <section id="id5704148">
+        <title>Grant Cathcart</title>
+        <figure id="id1165979582512"><media id="id1165979582512_media" alt="">
+            <image mime-type="image/jpg" src="../../media/graphics2.jpg" id="id1165979582512__onlineimage" height="303" width="228"/>
+          </media>
+        </figure>
+        <para id="id2247109">Grant Cathcart was born in Cleveland Ohio, in 1989.  Grant is currently a junior Electrical Engineering major at Rice University specializing in signals and systems.  Grant is employed by the Navy as part of the Tactical Electronic Warfare Division.  When not working on projects and cursing matlab, Grant likes to play chess and video games.</para>
+      </section>
+      <section id="id1165976631913">
+        <title>Graham de Wit</title>
+        <figure id="id1165990795372">
+          <media id="id1165990795372_media" alt="">
+            <image mime-type="image/jpg" src="../../media/graphics1.jpg" id="id1165990795372__onlineimage" height="339" width="325"/>
+          </media>
+        </figure>
+        <para id="id5395894">Graham was born in Cincinnati, OH in 1989. However, he spent most of his life in Memphis, TN, the Home of the Blues. Graham is currently a junior Electrical Engineering major at Rice University specializing in Computer Engineering. Graham enjoys convolving signals, computing Fourier Transforms, and inducing capacitor explosions. When he is not buried in problem sets, Graham spends time eating, sleeping, hanging out with friends, and composing music via his synthesizers.</para>
+      </section>
+      <section id="id5244347">
+        <title>Nicholas “Re'Sean” Newton</title>
+       <figure id="id2510549"><media id="id2510549_media" alt=""><image mime-type="image/jpg" src="../../media/graphics3.jpg" id="id2510549__onlineimage" height="220" width="309"/></media></figure> <para id="id5463769">Nicholas Newton was born in Wichita Falls,TX in 1989. He is currently an junior Electrical Engineering major with a specialization in Computer Engineering at Rice University . He plans to attend Graduate School after he graduates from Rice. Nicholas has a deep passion for the Computer Engineering industry and computers in general. Outside of his academic career, Nicholas enjoys working out and a number of different sports. </para>
+      </section>
+    </section>
+  </content>
+</document>
